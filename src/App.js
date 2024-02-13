@@ -1,23 +1,33 @@
 import logo from './logo.svg';
+import { useState } from "react";
 import './App.css';
 
-function App() {
+const App = () => {
+  const [inputText, setInputText] = useState(" ");
+  const [outputText, setOutputText] = useState("");
+
+  const convertText = () => {
+    let newText = inputText.replace(/ +/g, " ")
+
+    setOutputText(newText);
+    setInputText(newText);
+  }
+
+  const handleEnter = (e) => {
+    if ((e.keyCode === 13)) {
+      convertText();
+      setInputText("");
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="inputs">
+        <button onClick={() => setInputText("")}>Clear</button>
+        <input type="text" onKeyDown={handleEnter} onChange={(e) => setInputText(e.target.value)} value={inputText}></input>
+        <button onClick={() => {convertText(); setInputText("")}}>Submit</button>
+      </div>
+      <p className="outputText">{outputText}</p>
     </div>
   );
 }
